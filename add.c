@@ -91,11 +91,21 @@ void add(Master &m){
 	cout<<"__1.返回首页"<<endl
 		<<"__2.继续添加"<<endl;
 	cin>>z;
-	if(z==1){
-		system("cls");
-		cao(m);
-	}else{
-		system("cls");
-		add(m);
-	}
+	while(1)
+	{
+		if(z==1){
+			system("cls");
+			cao(m);
+			break;
+		}else{
+			if(z==2){
+				system("cls");
+				add(m);
+				break;
+			}else{
+				cout<<"请从1-2中选择：";
+				cin>>z;
+			}
+		}
+	} 
 }
