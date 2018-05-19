@@ -15,11 +15,21 @@ void del(Master &m){									//此函数结构和add()函数相同
 		<<"2.继续删除"<<endl
 		<<"请选择1-2："<<endl;
 	cin>>z; 
-	if(z==1){
-		system("cls");
-		cao(m);
-	}else{
-		system("cls");
-		del(m);
+	while(1)
+	{
+		if(z==1){
+			system("cls");
+			cao(m);
+			break;
+		}else{
+			if(z==2){
+				system("cls");
+				del(m);
+				break;
+			}else{
+				cout<<"请从1-2中选择：";
+				cin>>z;
+			}
+		}
 	}
 }
