@@ -153,67 +153,92 @@ void Node::Find(char *a)			//学生版，传入账号,以便直接读出登陆�
 	while(p!=NULL)
 	{
 		if(strcmp(a,p->getId())==0){
-			cout<<"----------------------你查询的学生信息为-----------------------"<<endl
-				<<"-	姓    名："<<setw(20)<<left<<p->getName()<<setw(20)<<left<<"性    别："<<p->getSex()<<endl
-				<<"-	学    号："<<setw(20)<<left<<p->getId()<<setw(20)<<left<<"民    族："<<p->getPeople()<<endl
-				<<"-	出生日期："<<setw(20)<<left<<p->getBirthday()<<setw(20)<<left<<"分    数："<<p->getScore()<<endl
-				<<"-	出 生 地："<<setw(20)<<left<<p->getBirthPlace()<<setw(20)<<left<<"年    龄："<<p->getAge()<<endl
-				<<"-	身份证号："<<setw(20)<<left<<p->getPhone()<<setw(20)<<left<<"班    级："<<p->getClass()<<endl
-				<<"-	健康状况："<<setw(20)<<left<<p->getHealth()<<setw(20)<<left<<"就读学校："<<p->getPrime()<<endl	
-				<<"-	住    址："<<p->getAddress()<<endl
-				<<"----------------------------------------------------------------"<<endl
-				<<endl;
-			//输出学生信息 
-			int i;
-			cout<<"1.修改密码"<<endl
-				<<"2.获得班级考试情况"<<endl 
-				<<"3.退出登陆"<<endl
-				<<"请选择1-3："<<endl;
-			cin>>i;
-			switch(i){
-				case 1:{
-					system("cls");
-					char pass[20];
-					cout<<"请输入修改后的密码: ";
-					cin>>pass; 
-					p->setPassword(pass);
-					char password[20]="123456";
-					p=head->next;
-					ofstream file("password.dat",ios::binary);
-					while(p!=NULL)
+			while(1)
+			{
+				cout<<"----------------------你的学生信息为-----------------------"<<endl
+					<<"-	姓    名："<<setw(20)<<left<<p->getName()<<setw(20)<<left<<"性    别："<<p->getSex()<<endl
+					<<"-	学    号："<<setw(20)<<left<<p->getId()<<setw(20)<<left<<"民    族："<<p->getPeople()<<endl
+					<<"-	出生日期："<<setw(20)<<left<<p->getBirthday()<<setw(20)<<left<<"分    数："<<p->getScore()<<endl
+					<<"-	出 生 地："<<setw(20)<<left<<p->getBirthPlace()<<setw(20)<<left<<"年    龄："<<p->getAge()<<endl
+					<<"-	身份证号："<<setw(20)<<left<<p->getPhone()<<setw(20)<<left<<"班    级："<<p->getClass()<<endl
+					<<"-	健康状况："<<setw(20)<<left<<p->getHealth()<<setw(20)<<left<<"就读学校："<<p->getPrime()<<endl	
+					<<"-	住    址："<<p->getAddress()<<endl
+					<<"----------------------------------------------------------------"<<endl
+					<<endl;
+				//输出学生信息 
+				int i;
+				cout<<"1.修改密码"<<endl
+					<<"2.获得班级考试情况"<<endl 
+					<<"3.退出登陆"<<endl
+					<<"请选择1-3："<<endl;
+				cin>>i;
+				while(1)
+				{
+					switch(i)
 					{
-						if(strcmp(a,p->getId())==0){
-							file.write((char *)&pass,sizeof(pass));
-							p=p->next;
-						}else{
-							file.write((char *)password,sizeof(password));
-							p=p->next;
+						case 1:{
+							system("cls");
+							char pass[20];
+							cout<<"请输入修改后的密码: ";
+							cin>>pass; 
+							p->setPassword(pass);
+							char password[20]="123456";
+							p=head->next;
+							ofstream file("password.dat",ios::binary);
+							int flag=0;
+							while(p!=end)	//若此处设为NULL，会报对空指针进行操作的错，所以换为end 
+							{
+								flag=1;
+								if(strcmp(a,p->getId())==0){
+									file.write((char *)pass,sizeof(pass));
+									p=p->next;
+								}else{
+									file.write((char *)password,sizeof(password));
+									p=p->next;
+								}
+							}
+							
+							//由于上面换为end，所以他会少保存一个数据，此处在讲=将最后一个读入 
+							if(flag==1)
+								file.write((char *)password,sizeof(password));
+							else
+								file.write((char *)pass,sizeof(pass));
+								
+							file.close();
+							cout<<endl<<"修改密码成功！"<<endl;
+							break;
+						}
+						case 2:{
+							Student stu;
+							stu.setData(p->getClass(),p->getScore(),head->next);
+							trans(&stu,p);
+							cout<<"班级总人数："<<stu.getNum()<<" "
+								<<"及格人数："<<stu.getPassNum()<<" "
+								<<"及格率："<<stu.getPass()<<" "
+								<<"你的排名："<<stu.getRank()<<endl
+								<<endl;
+							break;
+						}
+						case 3:{
+							system("cls");
+							exit(0);
+							break;
+						}
+						default:{
+							cout<<"请从1-3中进行选择：";
+							break;
 						}
 					}
-					file.close();
-					cout<<endl<<"修改密码成功！"<<endl;
-					break;
+					if(i>=1&&i<=3)
+						break;
+					else
+						cin>>i;
 				}
-				case 2:{
-					Student stu;
-					stu.setData(p->getClass(),p->getScore(),head->next);
-					trans(&stu,p);
-					cout<<"班级总人数："<<stu.getNum()<<" "
-						<<"及格人数："<<stu.getPassNum()<<" "
-						<<"及格率："<<stu.getPass()<<" "
-						<<"你的排名："<<stu.getRank()<<endl
-						<<endl;
-					break;
-				}
-				case 3:{
-					system("cls");
-					exit(0);
-					break;
-				}
-			}
-			system("pause");
-			system("cls"); 
-			break;
+				
+				system("pause");
+				system("cls");
+				
+			} 
 		}else{
 			p=p->next;
 		}
