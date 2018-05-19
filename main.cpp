@@ -38,12 +38,22 @@ void MainBoard(Master &m)		//主界面函数
 		<<"-----------------------------------------------"<<endl;
 		
 	cin>>z;
-	if(z==1){
-		system("cls");
-		masterBoard(m);
-	}else{
-		system("cls");
-		stuBoard(); 
+	while(1)
+	{
+		if(z==1){
+			system("cls");
+			masterBoard(m);
+			break;
+		}else{
+			if(z==2){
+				system("cls");
+				stuBoard(); 
+				break;
+			}else{
+				cout<<"请从1-2中选择：";
+				cin>>z;
+			}
+		}
 	}
 }
 
