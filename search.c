@@ -13,11 +13,21 @@ void search(Master &m){				//此函数和add()函数相同
 		<<"2.继续查询"<<endl
 		<<"请选择1-2："<<endl;;
 	cin>>z;
-	if(z==1){
-		system("cls");
-		cao(m);
-	}else{
-		system("cls");
-		search(m);
+	while(1)
+	{
+		if(z==1){
+			system("cls");
+			cao(m);
+			break;
+		}else{
+			if(z==2){
+				system("cls");
+				search(m);
+				break;
+			}else{
+				cout<<"请从1-2中选择：";
+				cin>>z;
+			}
+		}
 	}
 }
