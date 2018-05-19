@@ -12,11 +12,21 @@ void Modify(Master &m1){
 	cout<<"__1.返回首页"<<endl
 		<<"__2.继续修改"<<endl;
 	cin>>z;
-	if(z==1){
-		system("cls");
-		cao(m1);
-	}else{
-		system("cls");
-		Modify(m1);
+	while(1)
+	{
+		if(z==1){
+			system("cls");
+			cao(m1);
+			break;
+		}else{
+			if(z==2){
+				system("cls");
+				Modify(m1);
+				break; 
+			}else{
+				cout<<"请从1-2中选择：";
+				cin>>z;
+			}
+		}
 	}
 }
